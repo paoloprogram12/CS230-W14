@@ -1,1 +1,2 @@
 # CS230-W14
+To start this program, you can either click on the built-in run button, or type in "g++ AdjacencyList.cpp" or "g++ AdjacencyMatrix.cpp" in the terminal. After typing that, type in "./a.out".
