@@ -9,6 +9,7 @@ class ListGraph {
 private:
     int v; // vertices
     vector<vector<int>> adjList;
+    set<int> visited;
 
 public:
     ListGraph(int vertices) { // constructor
@@ -31,7 +32,6 @@ public:
 
     void BFS(int start, int target) {
         queue<int> q;
-        set<int> visited;
 
         q.push(start);
         visited.insert(start);
@@ -56,7 +56,34 @@ public:
         }
 
         cout << "Target not found" << endl;
+    }
 
+    void DFS (int node, int target) { // for the first call, node would be the start
+        visited.insert(node);
+
+        if (node == target) {
+            cout << "Target found: " << node << endl;
+            return;
+        }
+
+        for (int i = 0; i < adjList[node].size(); i++) {
+            int neighbor = adjList[node][i];
+            if (visited.find(neighbor) == visited.end()) { // checks if the neighbor is not visited
+                DFS(neighbor, target);
+            }
+        }
+
+        cout << "Target not found" << endl;
+    }
+
+    void startBFS(int start, int target) {
+        visited.clear();
+        BFS(start, target);
+    }
+
+    void startDFS(int node, int target) {
+        visited.clear();
+        DFS(node, target);
     }
 };
 
@@ -72,8 +99,11 @@ int main() {
     lg.print();
 
     cout << "Breadth First Search:" << endl;
+    lg.startBFS(2, 0);
 
-    lg.BFS(2, 0);
+
+    cout << "Depth First Search:" << endl;
+    lg.startDFS(2, 0);
 
     return 0;
 }
