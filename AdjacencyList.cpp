@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <queue>
+#include <set>
 using namespace std;
 
 
@@ -14,7 +16,7 @@ public:
         adjList.resize(v);
     }
 
-    void addEdge(int u, int v) { // adds edge for each vertices
+    void addEdge(int u, int v) { // adds edge for each vertices (vertice, edge)
         adjList[u].push_back(v); 
         adjList[v].push_back(u);
     }
@@ -25,6 +27,36 @@ public:
             for (int neighbor : adjList[i]) { cout <<" -> " << neighbor; }
             cout << endl;
         }
+    }
+
+    void BFS(int start, int target) {
+        queue<int> q;
+        set<int> visited;
+
+        q.push(start);
+        visited.insert(start);
+
+        while (!q.empty()) {
+            int node = q.front();
+            q.pop();
+
+            if (node == target) { 
+                cout << "Target found: " << node << endl;
+                return;
+            }
+
+            // look at the neighbors of each node
+            for (int neighbor : adjList[node]) {
+                if (visited.find(neighbor) == visited.end()) { // checks if the neighbor is not visited
+                    q.push(neighbor);
+                    visited.insert(neighbor);
+                }
+            }
+
+        }
+
+        cout << "Target not found" << endl;
+
     }
 };
 
@@ -38,6 +70,10 @@ int main() {
 
     cout << "Adjacency List:" << endl;
     lg.print();
+
+    cout << "Breadth First Search:" << endl;
+
+    lg.BFS(2, 0);
 
     return 0;
 }
